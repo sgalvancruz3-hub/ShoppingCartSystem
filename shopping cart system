@@ -1,0 +1,155 @@
+import datetime
+# Has the products and prices lined up for each
+products = ["Chips","Soda","Candy","Cookies", "Water", "Sandwich"]
+prices = [2.00, 2.50,1.50, 3.00, 1.00, 5.00]
+
+# Sets the shopping cart list for the items the user wants
+shopping_cart = []
+#  Has the function call for displaying products
+def display_products(products, prices):
+    print("")
+    print("========== AVAILABLE PRODUCTS ==========")
+    for i in range(len(products)):
+        print(f" { i + 1 }. {products[i]}        $ {prices[i]:.2f}")
+
+# Has the function where it adds products the user wants
+def add_product(products, shopping_cart):
+    print("Which product would you like to add?")
+    for i in range(len(products)):
+        print(f" { i + 1 }. {products[i]}")
+    
+    product_num = int(input("Enter product number: "))
+
+    while product_num > 6 or product_num < 1:
+        print("Invalid option! Pick again!") 
+        product_num = int(input("Enter product number: "))
+
+    shopping_cart.append(products[product_num - 1])
+    print(f"{products[product_num - 1]} was added to your cart!")
+
+# Has the function remove the current items the user has
+def remove_product(shopping_cart):
+    print("========== YOUR SHOPPING CART ==========")
+    if len(shopping_cart) == 0:
+        print("Your cart is empty!")
+        return
+    for i in range(len(shopping_cart)):
+        print(f" { i + 1 }. {shopping_cart[i]}")
+            
+    print("Which item would you like to remove?")
+    remove_item = int(input("Enter item number: "))
+    if 1 <= remove_item <= len(shopping_cart):
+        removed_item = shopping_cart.pop(remove_item - 1)
+        print(f"{removed_item} was removed from your cart!")
+    else:
+        print("Invalid product number. Please try again.")
+
+
+# Has the total items in the cart
+def cart_total(shopping_cart):
+    print("========== YOUR SHOPPING CART ==========")
+    if len(shopping_cart) == 0:
+        print("You have no items!")
+
+    else:
+        for i in range(len(shopping_cart)):
+            print(f" { i + 1 }. {shopping_cart[i]}")
+    print(f"Total Items {len(shopping_cart)}")
+    
+        
+                
+# has the current total price of what is in the cart at the moment
+def current_price_total(shopping_cart):
+    print("========== CURRENT TOTAL ==========")
+    total = 0
+    if len(shopping_cart) == 0:
+        print("Your cart is empty")
+        return total
+    for item in shopping_cart:
+        index = products.index(item)
+        price = prices[index]
+        print(f"{item}       $ {price:.2f}")
+        total += price
+
+    print("------------------------------")
+    print(f"Total: $ {total:.2f}")
+    return total
+
+# Has the final checkout and adds discounts if it applies
+def checkout(total):
+    print("========== RECEIPT ==========")
+    print("")
+    print(f"Date: {datetime.date.today()}")
+    print("")
+    print(f" Subtotal:           ${total:.2f}")
+    for item in shopping_cart:
+        index = products.index(item)
+        price = prices[index]
+        print(f"{item}       $ {price:.2f}")
+    # Starts to check the price for the discount
+    if total >= 40:
+        print("Discount:      15%")
+        saved = total * 0.15
+        print(f"Amount saved:    {saved:.2f}")
+        final_total = total - saved
+    elif total >= 20:
+        print("Discount:     10%")
+        saved = total * 0.10
+        print(f"Amount saved:  {saved:.2f}")
+        final_total = total - saved
+    elif total >= 10:
+        print("Discount:      5%")
+        saved = total * 0.05
+        print(f"Amount saved:    {saved:.2f}")
+        final_total = total - saved
+    else:
+        print("No discount")
+        print("No amount saved")
+        final_total = total
+        
+    # Prints the final total and in the function call stops the program
+    print(f"Final Total: {final_total:.2f}")
+    print("Thank you for shopping")
+    return final_total
+    
+# While the user does not checkout is true keep running the choices and the function calls for the programs
+while True:
+    print("========== SMART SHOPPING CART ==========")
+    print("1. View Available Products")
+    print("2. Add Product to Cart")
+    print("3. Remove Product from Cart")
+    print("4. View Shopping Cart")
+    print("5. View Current Total")
+    print("6. Checkout")
+    print("")
+    choice = int(input("Enter your choice: "))
+    # Checks 
+    while choice > 6 or choice < 1:
+        print("That is not a valid choice please pick something in the program.")
+        choice = int(input("Enter your choice: "))
+    else:
+        if choice == 1:
+            display_products(products, prices)
+        
+
+        elif choice == 2:
+            add_product(products, shopping_cart)
+        
+
+        elif choice == 3:
+            remove_product(shopping_cart)
+        
+
+        elif choice == 4:
+            cart_total(shopping_cart)
+       
+
+        elif choice == 5:
+            current_price_total(shopping_cart)
+        
+        
+    
+        elif choice == 6:
+            total = current_price_total(shopping_cart)
+            checkout(total)
+            break
